@@ -1,7 +1,8 @@
 # 🐱Sleeping Cat
 
 멋쟁이 사자처럼 천하제일 캐릭터 경진대회 출품작입니다.
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/735f40d3-cd4a-4db9-bd78-4f09c45ba123/Untitled.png)
+
+
 
 ## CSS 애니메이션(@keyframes) 사용
 
