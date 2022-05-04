@@ -182,12 +182,24 @@ footer .cont-info {
   margin: 0 auto;
   overflow: hidden;
 }
+footer .cont-info .wrapper-info {
+  overflow: hidden;
+  width: 100%;
+  border-bottom: 1px solid #c4c4c4;
+  margin-bottom: 36px;
+}
 footer .cont-info .tit-company {
   color: #000;
   font-weight: 700;
   font-size: 1.375rem;
   padding-bottom: 42px;
   float: left;
+}
+footer .cont-info .txt-copyright {
+  font-size: 0.875rem;
+  color: #4f4f4f;
+  font-weight: 700;
+  float: right;
 }
 footer .cont-info .sns-list {
   float: right;
@@ -219,13 +231,6 @@ footer .list-info {
   float: left;
 }
 
-footer .cont-info .wrapper-info {
-  overflow: hidden;
-  width: 100%;
-  border-bottom: 1px solid #c4c4c4;
-  margin-bottom: 36px;
-}
-
 footer address .list-info dt,
 footer address .list-info dd {
   display: inline-block;
@@ -244,11 +249,39 @@ footer address .list-info dt::before {
   margin: 0 5px;
 }
 
-footer .cont-info .txt-copyright {
-  font-size: 0.875rem;
-  color: #4f4f4f;
-  font-weight: 700;
-  float: right;
+@media all and (min-width: 768px) and (max-width: 1023px) {
+  .main-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  footer .list-info {
+    width: 100%;
+  }
+  footer .cont-info .txt-copyright {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+@media all and (max-width: 768px) {
+  .main-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .wrapper-main {
+    max-width: 100%;
+    padding: 40px 0px 29px 0px;
+  }
+
+  footer .list-info {
+    width: 100%;
+  }
+
+  footer .cont-info .txt-copyright {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
