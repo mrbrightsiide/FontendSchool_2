@@ -59,7 +59,9 @@ body {
   text-align: center;
   li {
     display: inline-block;
-    margin-right: 60px;
+    &:not(:last-child) {
+      margin-right: 60px;
+    }
   }
   .nav-link {
     font-size: 1rem;
@@ -267,10 +269,30 @@ footer .cont-info {
   }
 }
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 768px) and (min-width: 480px) {
   .main-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
+  }
+  .wrapper-main {
+    max-width: 100%;
+    padding: 40px 0 29px 0;
+  }
+  footer {
+    .list-info {
+      width: 100%;
+    }
+    .cont-info .txt-copyright {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media all and (max-width: 480px) {
+  .main-list {
+    display: grid;
+    grid-template-columns: 1fr;
   }
   .wrapper-main {
     max-width: 100%;
