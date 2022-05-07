@@ -42,10 +42,11 @@ body {
 .main-list .item-list {
   max-width: 178px;
   padding: 18px 20px 18px 20px;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
   background: #fff;
   overflow: hidden;
 }
+
 .main-list .item-list .img-poster {
   width: 178px;
   border: 1px solid #bdbdbd;
@@ -58,16 +59,19 @@ body {
   margin-top: 28px;
   text-align: center;
 }
+
 .nav-list li {
   display: inline-block;
   margin-right: 60px;
 }
+
 .nav-list .nav-link {
   font-size: 1rem;
   vertical-align: Top;
   color: #828282;
   text-decoration: none;
 }
+
 .nav-list .nav-link.on {
   color: #000;
   font-weight: 900;
@@ -82,18 +86,22 @@ body {
   margin-top: 28px;
   border-radius: 10px;
 }
+
 .cont-main ul li {
   border: 1px solid #bdbdbd;
   border-radius: 10px;
   overflow: hidden;
-  -webkit-box-shadow: 0px 0px 6px -3px #000;
-  box-shadow: 0px 0px 6px -3px #000;
+  -webkit-box-shadow: 0 0 6px -3px #000;
+  box-shadow: 0 0 6px -3px #000;
 }
 
 .main-list {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 23px;
+  -ms-grid-columns: 1fr 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+  -webkit-column-gap: 23px;
+          column-gap: 23px;
   row-gap: 24px;
   place-items: center;
 }
@@ -103,6 +111,15 @@ body {
   color: #000;
   font-size: 1rem;
   margin-bottom: 12px;
+}
+
+.movie-info .wrapper-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 .movie-info div dt {
@@ -117,33 +134,45 @@ body {
   font-size: 0.813rem;
 }
 
-.wrapper-rating {
+.movie-info .wrapper-rating {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
-.wrapper-rating .img-rating {
+
+.movie-info .wrapper-rating .img-rating {
   width: 14px;
   height: 14px;
   margin-right: 4px;
 }
 
-.movie-info .wrapper-info {
-  display: flex;
-  justify-content: space-between;
-}
-
 .wrapper-link {
   padding: 8px 32px 11px 27px;
   border-top: 1px solid #bdbdbd;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background-color: #f2f2f2;
 }
+
 .wrapper-link .link-teaser {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 .wrapper-link .link-teaser::before {
   content: "";
   background: url("../img/아이콘_재생.png") no-repeat 0px center;
@@ -153,12 +182,14 @@ body {
   display: inline-block;
   margin-right: 2px;
 }
+
 .wrapper-link .link-book::after {
   content: "";
   margin-left: 27px;
   border-right: 1px solid #b0b0b0;
-  padding: 8px 0px 11px 0px;
+  padding: 8px 0 11px 0;
 }
+
 .wrapper-link .link-book,
 .wrapper-link .link-teaser {
   font-size: 0.875rem;
@@ -174,87 +205,101 @@ footer {
   margin-top: 135px;
   overflow: hidden;
   padding-top: 53px;
-  padding-bottom: 38px;
 }
 
 footer .cont-info {
   max-width: 1189px;
   margin: 0 auto;
   overflow: hidden;
+  padding-bottom: 38px;
 }
+
 footer .cont-info .wrapper-info {
   overflow: hidden;
   width: 100%;
   border-bottom: 1px solid #c4c4c4;
   margin-bottom: 36px;
 }
-footer .cont-info .tit-company {
+
+footer .cont-info .wrapper-info .tit-company {
   color: #000;
   font-weight: 700;
   font-size: 1.375rem;
   padding-bottom: 42px;
   float: left;
 }
-footer .cont-info .txt-copyright {
-  font-size: 0.875rem;
-  color: #4f4f4f;
-  font-weight: 700;
-  float: right;
-}
-footer .cont-info .sns-list {
+
+footer .cont-info .wrapper-info .sns-list {
   float: right;
   min-width: 122px;
 }
-footer .cont-info .sns-list .sns-link {
+
+footer .cont-info .wrapper-info .sns-list .sns-link {
   float: left;
   display: inline-block;
   width: 24px;
   height: 24px;
   text-indent: -9999999px;
 }
-footer .cont-info .sns-list .sns-link.link-twitter {
+
+footer .cont-info .wrapper-info .sns-list .sns-link.link-twitter {
   background: url("../img/twitter.png") no-repeat center;
   background-size: contain;
   margin-right: 25px;
 }
-footer .cont-info .sns-list .sns-link.link-ig {
+
+footer .cont-info .wrapper-info .sns-list .sns-link.link-ig {
   background: url("../img/instagram.png") no-repeat center;
   background-size: contain;
   margin-right: 25px;
 }
-footer .cont-info .sns-list .sns-link.link-fb {
+
+footer .cont-info .wrapper-info .sns-list .sns-link.link-fb {
   background: url("../img/facebook.png") no-repeat center;
   background-size: contain;
 }
 
-footer .list-info {
+footer .cont-info address {
   float: left;
 }
 
-footer address .list-info dt,
-footer address .list-info dd {
-  display: inline-block;
-  font-size: 0.875rem;
+footer .cont-info address ul li {
   color: #4f4f4f;
+  float: left;
+  font-weight: 400;
+  font-size: 14px;
+  padding-right: 12px;
+  overflow: hidden;
 }
 
-footer address .list-info dt,
-footer address .list-info dd:nth-child(2) {
+footer .cont-info address ul li > strong {
   font-weight: 700;
 }
 
-footer address .list-info dt::before {
+footer .cont-info address ul li > strong:not(.txt-companyTit) {
+  margin-right: 7px;
+}
+
+footer .cont-info address ul li + li:before {
   content: "";
-  border-right: 1px solid #4f4f4f;
-  margin: 0 5px;
+  border-left: 1px solid #4f4f4f;
+  padding-left: 12px;
+}
+
+footer .cont-info .txt-copyright {
+  font-size: 0.875rem;
+  color: #4f4f4f;
+  font-weight: 700;
+  float: right;
 }
 
 @media all and (min-width: 768px) and (max-width: 1023px) {
   .main-list {
+    display: -ms-grid;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    -ms-grid-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
   }
-
   footer .list-info {
     width: 100%;
   }
@@ -263,25 +308,24 @@ footer address .list-info dt::before {
     margin-top: 10px;
   }
 }
+
 @media all and (max-width: 768px) {
   .main-list {
+    display: -ms-grid;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
   }
-
   .wrapper-main {
     max-width: 100%;
-    padding: 40px 0px 29px 0px;
+    padding: 40px 0 29px 0;
   }
-
   footer .list-info {
     width: 100%;
   }
-
   footer .cont-info .txt-copyright {
     width: 100%;
     margin-top: 10px;
   }
 }
-
 /*# sourceMappingURL=style.css.map */
