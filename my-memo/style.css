@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap");
+
+body {
+  font-family: "Nanum Pen Script", cursive;
+  font-size: 20px;
+  background-color: #7092ff;
+  text-align: center;
+}
+
+h1 {
+  color: #fff;
+}
+
+.container {
+  max-width: 750px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+
+form {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form input {
+  border: 1px solid #f0f0f0;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+  font-size: 1.5rem;
+  font-family: "Nanum Pen Script", cursive;
+  min-width: 50%;
+  text-align: center;
+}
+
+form button {
+  font-family: "Nanum Pen Script", cursive;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #7092ff;
+  color: white;
+}
+
+#container-memo {
+  max-width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.item-memo {
+  background-color: #ffefa8;
+  border-radius: 10px;
+  padding: 0 20px;
+  margin: 8px;
+  text-align: left;
+}
+
+.item-memo .date {
+  color: #8d8d8d;
+  font-size: 1rem;
+}
+
+.btn-clear {
+  font-family: "Nanum Pen Script", cursive;
+  font-size: 1.3rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #ffcbcb;
+  width: 200px;
+  margin-top: 30px;
+}

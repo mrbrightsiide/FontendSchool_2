@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Memo</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>My Memo</h1>
+    <div class="container">
+      <form>
+        <input
+          type="text"
+          placeholder="메모를 입력하세요"
+          name="input-memo"
+          id="input-memo"
+          required
+        />
+        <button type="POST" id="memo-submit-btn" onclick="setItem()">
+          입력
+        </button>
+      </form>
+      <div id="container-memo"></div>
+      <button onclick="clearItem()" class="btn-clear">메모 전체삭제</button>
+    </div>
+    <script>
+      const memoBtn = document.getElementById("memo-submit-btn");
+      const memoInput = document.getElementById("input-memo");
+      const memoContainer = document.getElementById("container-memo");
+
+      // getItem(key) – 키에 해당하는 값 호출
+      const getItem = () => {
+        let memoItem = JSON.parse(localStorage.getItem("memo"));
+        for (let i = 0; i < memoItem.length; i++) {
+          memoContainer.innerHTML += `<div class="item-memo"><p>${memoItem[i].content}</p><p class="date">${memoItem[i].date}</p></div>`;
+        }
+      };
+
+      if (localStorage.length !== 0) getItem();
+
+      // setItem(key, value) – 키-값 쌍 저장
+      const setItem = () => {
+        if (localStorage.length === 0) {
+          localStorage.setItem(
+            "memo",
+            JSON.stringify([
+              { content: memoInput.value, date: new Date().toLocaleString() },
+            ])
+          );
+        } else {
+          let memos = JSON.parse(localStorage.getItem("memo"));
+          if (memoInput.value === "") {
+            alert("메모를 입력해주세요");
+          } else {
+            memos.push({
+              content: memoInput.value,
+              date: new Date().toLocaleString(),
+            });
+            localStorage.setItem("memo", JSON.stringify(memos));
+          }
+        }
+      };
+      // clear() – 모든 데이터 삭제
+      const clearItem = () => {
+        localStorage.clear();
+        window.location.reload();
+      };
+    </script>
+  </body>
+</html>
