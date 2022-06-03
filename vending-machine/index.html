@@ -20,54 +20,7 @@
       <h1 class="tit-app ir">cola cola</h1>
       <section class="vending-machine">
         <h2 class="ir">자판기 화면</h2>
-        <ul class="list-item">
-          <li>
-            <button type="button" class="btn-item">
-              <img
-                src="./src/images/Original_Cola.png"
-                alt=""
-                class="img-item"
-              />
-              <strong class="tit-item">Original Cola</strong>
-              <span class="txt-price">1000원</span>
-            </button>
-          </li>
-          <li class="sold-out">
-            <button type="button" class="btn-item">
-              <img src="./src/images/Violet_Cola.png" alt="" class="img-item" />
-              <strong class="tit-item">Violet Cola</strong>
-              <span class="txt-price">1000원</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="btn-item">
-              <img src="./src/images/Yellow_Cola.png" alt="" class="img-item" />
-              <strong class="tit-item">Yellow Cola</strong>
-              <span class="txt-price">1000원</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="btn-item">
-              <img src="./src/images/Cool_Cola.png" alt="" class="img-item" />
-              <strong class="tit-item">Cool Cola</strong>
-              <span class="txt-price">1000원</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="btn-item">
-              <img src="./src/images/Green_Cola.png" alt="" class="img-item" />
-              <strong class="tit-item">Green Cola</strong>
-              <span class="txt-price">1000원</span>
-            </button>
-          </li>
-          <li>
-            <button type="button" class="btn-item">
-              <img src="./src/images/Orange_Cola.png" alt="" class="img-item" />
-              <strong class="tit-item">Orange Cola</strong>
-              <span class="txt-price">1000원</span>
-            </button>
-          </li>
-        </ul>
+        <ul class="list-item"></ul>
 
         <section class="cont-buy">
           <h2 class="ir">구입 관련 정보</h2>
@@ -81,15 +34,7 @@
           <button type="button" class="btn-put">입금</button>
 
           <strong class="ir">선택한 음료</strong>
-          <ul class="list-item-staged">
-            <li>
-              <button type="button" class="btn-staged">
-                <img src="./src/images/Cool_Cola.png" alt="" class="img-item" />
-                <strong class="txt-item">Original Cola</strong>
-                <span class="num-counter">1</span>
-              </button>
-            </li>
-          </ul>
+          <ul class="list-item-staged"></ul>
           <button class="btn-get" type="button">획득</button>
         </section>
       </section>
@@ -98,7 +43,7 @@
         <div class="cont-mymoney">
           <div class="info-mymoney">
             소지금 :
-            <span class="txt-mymoney">30,000 원</span>
+            <span class="txt-mymoney"></span>
           </div>
         </div>
         <div class="cont-myitems">
@@ -116,5 +61,70 @@
         </div>
       </section>
     </div>
+    <script>
+      // 콜라 데이터 받아오기
+      const getColaData = async () => {
+        const response = await fetch(
+          `https://mrbrightsiide.github.io/FontendSchool_2/vending-machine/data.json`
+        );
+        if (response.ok === true) {
+          const colas = await response.json();
+          for (let i = 0; i < colas.length; i++) {
+            colaList.innerHTML += `<li><button type="button" class="btn-item"><img src=${colas[i].img} alt="" class="img-item"/><strong class="tit-item">${colas[i].name}</strong><span class="txt-price">${colas[i].price}</button></li>`;
+          }
+        } else {
+          alert("Sorry, We can't get our Colas :(");
+        }
+      };
+      getColaData();
+
+      let totalBudget = 30000;
+      let colaTotal = 0;
+      let balance = 0;
+      const colaList = document.querySelector(".list-item");
+      const itemStaged = document.querySelector(".list-item-staged");
+      const txtMyMoney = document.querySelector(".txt-mymoney");
+      const txtbalance = document.querySelector(".txt-balance");
+      const budgePutBtn = document.querySelector(".btn-put");
+      const budgePutInput = document.querySelector(".inp-put");
+      const infoBalance = document.querySelector(".info-balance");
+
+      // 소지금 초기화
+      txtMyMoney.textContent = totalBudget;
+
+      //입금 버튼 클릭
+      budgePutBtn.addEventListener("click", () => {
+        if (!budgePutInput.value) {
+          alert("입금액을 입력해주세요");
+        } else {
+          totalBudget -= parseInt(budgePutInput.value);
+          balance += parseInt(budgePutInput.value);
+          txtbalance.textContent = balance;
+          txtMyMoney.textContent = totalBudget;
+          budgePutInput.value = "";
+        }
+      });
+
+      // 콜라 버튼 클릭
+      colaList.addEventListener("click", (event) => {
+        const itemImg =
+          event.target.childNodes[0].childNodes[0].getAttribute("src");
+        const itemTxt = event.target.childNodes[0].childNodes[1].textContent;
+        const itemPrice = parseInt(
+          event.target.childNodes[0].childNodes[2].textContent
+        );
+        if (balance === 0) {
+          alert("잔액이 없습니다 :(");
+        }
+        if (balance >= itemPrice) {
+          itemStaged.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${1}</span></button></li>`;
+          balance -= itemPrice;
+          colaTotal += itemPrice;
+          txtbalance.textContent = balance;
+        } else {
+          alert("잔액이 모자랍니다 :(");
+        }
+      });
+    </script>
   </body>
 </html>
