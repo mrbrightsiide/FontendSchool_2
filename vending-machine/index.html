@@ -67,6 +67,17 @@
       </section>
     </div>
     <script>
+      let totalBudget = 30000;
+      let colaTotal = 0;
+      let balance = 0;
+      let stagedColas = [];
+      const colaList = document.querySelector(".list-item");
+      const itemStaged = document.querySelector(".list-item-staged");
+      const txtMyMoney = document.querySelector(".txt-mymoney");
+      const txtbalance = document.querySelector(".txt-balance");
+      const depositPutBtn = document.querySelector(".btn-put");
+      const depositInput = document.querySelector(".inp-put");
+
       // 콜라 데이터 받아오기
       const getColaData = async () => {
         const response = await fetch(
@@ -83,16 +94,6 @@
       };
       getColaData();
 
-      let totalBudget = 30000;
-      let colaTotal = 0;
-      let balance = 0;
-      const colaList = document.querySelector(".list-item");
-      const itemStaged = document.querySelector(".list-item-staged");
-      const txtMyMoney = document.querySelector(".txt-mymoney");
-      const txtbalance = document.querySelector(".txt-balance");
-      const depositPutBtn = document.querySelector(".btn-put");
-      const depositInput = document.querySelector(".inp-put");
-
       // 소지금 초기화
       txtMyMoney.textContent = totalBudget;
 
@@ -100,7 +101,7 @@
       depositPutBtn.addEventListener("click", () => {
         const deposit = depositInput.value;
         if (!deposit) {
-          return alert("입금액을 입력해주세요");
+          return alert("입금액을 입력해주세요.");
         }
         if (totalBudget > deposit && deposit >= 0) {
           totalBudget -= parseInt(deposit);
@@ -110,7 +111,7 @@
           return (depositInput.value = "");
         }
         if (deposit < 0 || deposit === NaN) {
-          return alert("유효한 금액을 입력해주세요");
+          return alert("유효한 금액을 입력해주세요.");
         }
         if (totalBudget < deposit) {
           return alert("소지금이 모자랍니다 :(");
@@ -125,14 +126,35 @@
         const itemPrice = parseInt(
           event.target.childNodes[0].childNodes[2].textContent
         );
+
         if (balance < itemPrice) {
-          return alert("잔액이 모자랍니다 :(");
+          return alert("잔액이 모자랍니다. 콜라를 뽑으시려면 입금해주세요 :)");
         }
+
         if (balance >= itemPrice && balance >= 0) {
-          itemStaged.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${1}</span></button></li>`;
           balance -= itemPrice;
-          colaTotal += itemPrice;
-          return (txtbalance.textContent = balance);
+          txtbalance.textContent = balance;
+          // stage에 선택한 콜라가 존재하지 않는 경우 stage에 새로 추가
+          if (!stagedColas.includes(itemTxt)) {
+            itemStaged.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">1</span></button></li>`;
+            colaTotal += itemPrice;
+            return stagedColas.push(itemTxt);
+          } else {
+            // stage에 선택한 콜라가 존재하는 경우 수량 +1증가
+            let stageCola = itemStaged.childNodes;
+            for (i = 0; i < stageCola.length; i++) {
+              let stageColaName =
+                itemStaged.childNodes[i].childNodes[0].childNodes[1]
+                  .textContent;
+              if (stageColaName === itemTxt) {
+                const currentCount = parseInt(
+                  stageCola[i].childNodes[0].childNodes[2].textContent
+                );
+                stageCola[i].childNodes[0].childNodes[2].textContent =
+                  currentCount + 1;
+              }
+            }
+          }
         }
       });
     </script>
