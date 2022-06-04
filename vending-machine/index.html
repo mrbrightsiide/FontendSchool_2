@@ -73,7 +73,7 @@
             colaList.innerHTML += `<li><button type="button" class="btn-item"><img src=${colas[i].img} alt="" class="img-item"/><strong class="tit-item">${colas[i].name}</strong><span class="txt-price">${colas[i].price}</button></li>`;
           }
         } else {
-          alert("Sorry, We can't get our Colas :(");
+          return alert("Sorry, We can't get our Colas :(");
         }
       };
       getColaData();
@@ -87,7 +87,6 @@
       const txtbalance = document.querySelector(".txt-balance");
       const budgePutBtn = document.querySelector(".btn-put");
       const budgePutInput = document.querySelector(".inp-put");
-      const infoBalance = document.querySelector(".info-balance");
 
       // 소지금 초기화
       txtMyMoney.textContent = totalBudget;
@@ -95,13 +94,17 @@
       //입금 버튼 클릭
       budgePutBtn.addEventListener("click", () => {
         if (!budgePutInput.value) {
-          alert("입금액을 입력해주세요");
-        } else {
+          return alert("입금액을 입력해주세요");
+        }
+        if (totalBudget > budgePutInput.value) {
           totalBudget -= parseInt(budgePutInput.value);
           balance += parseInt(budgePutInput.value);
           txtbalance.textContent = balance;
           txtMyMoney.textContent = totalBudget;
-          budgePutInput.value = "";
+          return (budgePutInput.value = "");
+        }
+        if (totalBudget < budgePutInput.value) {
+          return alert("소지금이 모자랍니다 :(");
         }
       });
 
@@ -113,16 +116,14 @@
         const itemPrice = parseInt(
           event.target.childNodes[0].childNodes[2].textContent
         );
-        if (balance === 0) {
-          alert("잔액이 없습니다 :(");
+        if (balance < itemPrice) {
+          return alert("잔액이 모자랍니다 :(");
         }
         if (balance >= itemPrice) {
           itemStaged.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${1}</span></button></li>`;
           balance -= itemPrice;
           colaTotal += itemPrice;
-          txtbalance.textContent = balance;
-        } else {
-          alert("잔액이 모자랍니다 :(");
+          return (txtbalance.textContent = balance);
         }
       });
     </script>
