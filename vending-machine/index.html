@@ -30,7 +30,12 @@
           </div>
           <button type="button" class="btn-return">거스름돈 반환</button>
 
-          <input class="inp-put" type="number" placeholder="입금액 입력" />
+          <input
+            class="inp-put"
+            type="number"
+            placeholder="입금액 입력"
+            min="0"
+          />
           <button type="button" class="btn-put">입금</button>
 
           <strong class="ir">선택한 음료</strong>
@@ -85,25 +90,29 @@
       const itemStaged = document.querySelector(".list-item-staged");
       const txtMyMoney = document.querySelector(".txt-mymoney");
       const txtbalance = document.querySelector(".txt-balance");
-      const budgePutBtn = document.querySelector(".btn-put");
-      const budgePutInput = document.querySelector(".inp-put");
+      const depositPutBtn = document.querySelector(".btn-put");
+      const depositInput = document.querySelector(".inp-put");
 
       // 소지금 초기화
       txtMyMoney.textContent = totalBudget;
 
       //입금 버튼 클릭
-      budgePutBtn.addEventListener("click", () => {
-        if (!budgePutInput.value) {
+      depositPutBtn.addEventListener("click", () => {
+        const deposit = depositInput.value;
+        if (!deposit) {
           return alert("입금액을 입력해주세요");
         }
-        if (totalBudget > budgePutInput.value) {
-          totalBudget -= parseInt(budgePutInput.value);
-          balance += parseInt(budgePutInput.value);
+        if (totalBudget > deposit && deposit >= 0) {
+          totalBudget -= parseInt(deposit);
+          balance += parseInt(deposit);
           txtbalance.textContent = balance;
           txtMyMoney.textContent = totalBudget;
-          return (budgePutInput.value = "");
+          return (depositInput.value = "");
         }
-        if (totalBudget < budgePutInput.value) {
+        if (deposit < 0 || deposit === NaN) {
+          return alert("유효한 금액을 입력해주세요");
+        }
+        if (totalBudget < deposit) {
           return alert("소지금이 모자랍니다 :(");
         }
       });
@@ -119,7 +128,7 @@
         if (balance < itemPrice) {
           return alert("잔액이 모자랍니다 :(");
         }
-        if (balance >= itemPrice) {
+        if (balance >= itemPrice && balance >= 0) {
           itemStaged.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${1}</span></button></li>`;
           balance -= itemPrice;
           colaTotal += itemPrice;
