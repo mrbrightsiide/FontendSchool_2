@@ -54,7 +54,9 @@
         <div class="cont-myitems">
           <strong class="tit-myitem">획득한 음료</strong>
           <ul class="list-item-staged"></ul>
-          <strong class="txt-total">총금액 : 0원</strong>
+          <strong class="txt-total"
+            >총금액 : <span class="totla-count"></span>원</strong
+          >
         </div>
       </section>
     </div>
@@ -64,6 +66,7 @@
       let balance = 0;
       let stagedColas = [];
       let takenColas = [];
+      let takenColasTotal = 0;
       const colaList = document.querySelector(".list-item");
       const stagedColaList = document.querySelector(
         ".cont-buy > .list-item-staged"
@@ -128,29 +131,28 @@
         if (balance < itemPrice) {
           return alert("잔액이 모자랍니다. 콜라를 뽑으시려면 입금해주세요 :)");
         }
-        if (itemImg && itemTxt && itemPrice) {
-          if (balance >= itemPrice && balance >= 0) {
-            balance -= itemPrice;
-            txtbalance.textContent = balance;
-            // stage에 선택한 콜라가 존재하지 않는 경우 stage에 새로 추가
-            if (!stagedColas.includes(itemTxt)) {
-              stagedColaList.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">1</span></button></li>`;
-              colaTotal += itemPrice;
-              stagedColas.push(itemTxt);
-            } else {
-              // stage에 선택한 콜라가 존재하는 경우 수량 +1증가
-              let stageCola = stagedColaList.childNodes;
-              for (let i = 0; i < stageCola.length; i++) {
-                let stageColaName =
-                  stagedColaList.childNodes[i].childNodes[0].childNodes[1]
-                    .textContent;
-                if (stageColaName === itemTxt) {
-                  const currentCount = parseInt(
-                    stageCola[i].childNodes[0].childNodes[2].textContent
-                  );
-                  stageCola[i].childNodes[0].childNodes[2].textContent =
-                    currentCount + 1;
-                }
+        if (balance >= itemPrice && balance >= 0) {
+          balance -= itemPrice;
+          takenColasTotal += itemPrice;
+          txtbalance.textContent = balance;
+          // stage에 선택한 콜라가 존재하지 않는 경우 stage에 새로 추가
+          if (!stagedColas.includes(itemTxt)) {
+            stagedColaList.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">1</span></button></li>`;
+            colaTotal += itemPrice;
+            stagedColas.push(itemTxt);
+          } else {
+            // stage에 선택한 콜라가 존재하는 경우 수량 +1증가
+            let stageCola = stagedColaList.childNodes;
+            for (let i = 0; i < stageCola.length; i++) {
+              let stageColaName =
+                stagedColaList.childNodes[i].childNodes[0].childNodes[1]
+                  .textContent;
+              if (stageColaName === itemTxt) {
+                const currentCount = parseInt(
+                  stageCola[i].childNodes[0].childNodes[2].textContent
+                );
+                stageCola[i].childNodes[0].childNodes[2].textContent =
+                  currentCount + 1;
               }
             }
           }
@@ -164,21 +166,41 @@
           return alert("콜라를 선택해주세요.");
         }
         if (stageCola.length > 0) {
-          stagedColas = [];
-          console.log(stageCola);
           for (let i = 0; i < stageCola.length; i++) {
             const itemImg =
               stageCola[i].childNodes[0].childNodes[0].getAttribute("src");
             const itemTxt =
               stageCola[i].childNodes[0].childNodes[1].textContent;
-            const itemCount =
-              stageCola[i].childNodes[0].childNodes[2].textContent;
-            // 획득한 음료 목록에 추가
-            takenColaList.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${itemCount}</span></button></li>`;
+            const itemCount = parseInt(
+              stageCola[i].childNodes[0].childNodes[2].textContent
+            );
+            // stagedColas에 획득하려는 콜라가 존재하지 않을 경우
+            if (!takenColas.includes(itemTxt)) {
+              // 획득한 음료 목록에 추가
+              takenColaList.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${itemCount}</span></button></li>`;
+              takenColas.push(itemTxt);
+            } else {
+              // stagedColas에 획득하려는 콜라가 존재할 경우 기존 목록에서 수량 증가
+              const takenColaListItems = takenColaList.childNodes;
+              for (let i = 0; i < takenColaListItems.length; i++) {
+                let takenItemTxt =
+                  takenColaListItems[i].childNodes[0].childNodes[1].textContent;
+                let takenItemCount = parseInt(
+                  takenColaListItems[i].childNodes[0].childNodes[2].textContent
+                );
+                if (takenItemTxt === itemTxt) {
+                  takenItemCount += itemCount;
+                  takenColaListItems[
+                    i
+                  ].childNodes[0].childNodes[2].textContent = takenItemCount;
+                }
+              }
+            }
           }
-          stagedColaList.textContent = "";
-          stagedColas = [];
         }
+        stagedColaList.textContent = "";
+        takenColasTotal = stagedColas = [];
+        takenColasTotal = 0;
       });
     </script>
   </body>
