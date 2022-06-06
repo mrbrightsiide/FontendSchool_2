@@ -53,15 +53,7 @@
         </div>
         <div class="cont-myitems">
           <strong class="tit-myitem">획득한 음료</strong>
-          <ul class="list-item-staged">
-            <li>
-              <button type="button" class="btn-staged">
-                <img src="./src/images/Cool_Cola.png" alt="" class="img-item" />
-                <strong class="txt-item">Original Cola</strong>
-                <span class="num-counter">1</span>
-              </button>
-            </li>
-          </ul>
+          <ul class="list-item-staged"></ul>
           <strong class="txt-total">총금액 : 0원</strong>
         </div>
       </section>
@@ -71,12 +63,19 @@
       let colaTotal = 0;
       let balance = 0;
       let stagedColas = [];
+      let takenColas = [];
       const colaList = document.querySelector(".list-item");
-      const itemStaged = document.querySelector(".list-item-staged");
+      const stagedColaList = document.querySelector(
+        ".cont-buy > .list-item-staged"
+      );
+      const takenColaList = document.querySelector(
+        ".cont-myitems > .list-item-staged"
+      );
       const txtMyMoney = document.querySelector(".txt-mymoney");
       const txtbalance = document.querySelector(".txt-balance");
       const depositPutBtn = document.querySelector(".btn-put");
       const depositInput = document.querySelector(".inp-put");
+      const getCola = document.querySelector(".btn-get");
 
       // 콜라 데이터 받아오기
       const getColaData = async () => {
@@ -89,7 +88,7 @@
             colaList.innerHTML += `<li><button type="button" class="btn-item"><img src=${colas[i].img} alt="" class="img-item"/><strong class="tit-item">${colas[i].name}</strong><span class="txt-price">${colas[i].price}</button></li>`;
           }
         } else {
-          return alert("Sorry, We can't get our Colas :(");
+          return alert("콜라 데이터를 불러올 수 없습니다 :(");
         }
       };
       getColaData();
@@ -103,7 +102,7 @@
         if (!deposit) {
           return alert("입금액을 입력해주세요.");
         }
-        if (totalBudget > deposit && deposit >= 0) {
+        if (totalBudget >= deposit && deposit >= 0) {
           totalBudget -= parseInt(deposit);
           balance += parseInt(deposit);
           txtbalance.textContent = balance;
@@ -126,35 +125,59 @@
         const itemPrice = parseInt(
           event.target.childNodes[0].childNodes[2].textContent
         );
-
         if (balance < itemPrice) {
           return alert("잔액이 모자랍니다. 콜라를 뽑으시려면 입금해주세요 :)");
         }
-
-        if (balance >= itemPrice && balance >= 0) {
-          balance -= itemPrice;
-          txtbalance.textContent = balance;
-          // stage에 선택한 콜라가 존재하지 않는 경우 stage에 새로 추가
-          if (!stagedColas.includes(itemTxt)) {
-            itemStaged.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">1</span></button></li>`;
-            colaTotal += itemPrice;
-            return stagedColas.push(itemTxt);
-          } else {
-            // stage에 선택한 콜라가 존재하는 경우 수량 +1증가
-            let stageCola = itemStaged.childNodes;
-            for (i = 0; i < stageCola.length; i++) {
-              let stageColaName =
-                itemStaged.childNodes[i].childNodes[0].childNodes[1]
-                  .textContent;
-              if (stageColaName === itemTxt) {
-                const currentCount = parseInt(
-                  stageCola[i].childNodes[0].childNodes[2].textContent
-                );
-                stageCola[i].childNodes[0].childNodes[2].textContent =
-                  currentCount + 1;
+        if (itemImg && itemTxt && itemPrice) {
+          if (balance >= itemPrice && balance >= 0) {
+            balance -= itemPrice;
+            txtbalance.textContent = balance;
+            // stage에 선택한 콜라가 존재하지 않는 경우 stage에 새로 추가
+            if (!stagedColas.includes(itemTxt)) {
+              stagedColaList.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">1</span></button></li>`;
+              colaTotal += itemPrice;
+              stagedColas.push(itemTxt);
+            } else {
+              // stage에 선택한 콜라가 존재하는 경우 수량 +1증가
+              let stageCola = stagedColaList.childNodes;
+              for (let i = 0; i < stageCola.length; i++) {
+                let stageColaName =
+                  stagedColaList.childNodes[i].childNodes[0].childNodes[1]
+                    .textContent;
+                if (stageColaName === itemTxt) {
+                  const currentCount = parseInt(
+                    stageCola[i].childNodes[0].childNodes[2].textContent
+                  );
+                  stageCola[i].childNodes[0].childNodes[2].textContent =
+                    currentCount + 1;
+                }
               }
             }
           }
+        }
+      });
+
+      // '획득' 버튼 클릭
+      getCola.addEventListener("click", () => {
+        let stageCola = stagedColaList.childNodes;
+        if (stageCola.length === 0) {
+          return alert("콜라를 선택해주세요.");
+        }
+        if (stageCola.length > 0) {
+          stagedColas = [];
+          console.log(stageCola);
+          for (let i = 0; i < stageCola.length; i++) {
+            const itemImg =
+              stageCola[i].childNodes[0].childNodes[0].getAttribute("src");
+            const itemTxt =
+              stageCola[i].childNodes[0].childNodes[1].textContent;
+            const itemCount =
+              stageCola[i].childNodes[0].childNodes[2].textContent;
+            // 획득한 음료 목록에 추가
+            takenColaList.innerHTML += `<li><button type="button" class="btn-staged"><img src=${itemImg} alt="" class="img-item" /><strong class="txt-item">${itemTxt}</strong><span class="num-counter">${itemCount}</span></button></li>`;
+          }
+          stagedColaList.textContent = "";
+          stagedColas = [];
         }
       });
     </script>
