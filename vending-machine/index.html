@@ -55,7 +55,7 @@
           <strong class="tit-myitem">획득한 음료</strong>
           <ul class="list-item-staged"></ul>
           <strong class="txt-total"
-            >총금액 : <span class="totla-count"></span>원</strong
+            >총금액 : <span class="totla-count">0</span>원</strong
           >
         </div>
       </section>
@@ -79,6 +79,7 @@
       const depositPutBtn = document.querySelector(".btn-put");
       const depositInput = document.querySelector(".inp-put");
       const getCola = document.querySelector(".btn-get");
+      const txtTotal = document.querySelector(".txt-total");
 
       // 콜라 데이터 받아오기
       const getColaData = async () => {
@@ -162,6 +163,8 @@
       // '획득' 버튼 클릭
       getCola.addEventListener("click", () => {
         let stageCola = stagedColaList.childNodes;
+        let currentTotal = parseInt(txtTotal.childNodes[1].textContent);
+        txtTotal.childNodes[1].textContent = currentTotal + takenColasTotal;
         if (stageCola.length === 0) {
           return alert("콜라를 선택해주세요.");
         }
@@ -199,7 +202,7 @@
           }
         }
         stagedColaList.textContent = "";
-        takenColasTotal = stagedColas = [];
+        stagedColas = [];
         takenColasTotal = 0;
       });
     </script>
