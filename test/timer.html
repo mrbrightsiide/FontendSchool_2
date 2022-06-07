@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title></title>
+  </head>
+  <body>
+    <header>
+      <h1 class="logo"></h1>
+    </header>
+    <section>
+      <h2>TIMER</h2>
+      <div class="timer_wrap">
+        <input type="number" max="99" min="0" class="hour" value="0" />
+        <input type="number" max="59" min="0" class="min" value="0" />
+        <input type="number" max="59" min="0" class="sec" value="0" />
+      </div>
+      <button type="button" class="btn-start">START</button>
+      <button type="button" class="btn-reset">RESET</button>
+    </section>
+    <footer>
+      <p>ⓒ WENIV Corp.</p>
+    </footer>
+    <script>
+      const startBtn = document.querySelector(".btn-start");
+      const resetBtn = document.querySelector(".btn-reset");
+      let hour = document.querySelector(".hour");
+      let min = document.querySelector(".min");
+      let sec = document.querySelector(".sec");
+      let startTimer = null;
+
+      function timer() {
+        if (hour.value == 0 && min.value == 0 && sec.value == 0) {
+          hour.value = formatTime(0);
+          min.value = 0;
+          sec.value = 0;
+        } else if (sec.value != 0) {
+          sec.value--;
+        } else if (min.value != 0 && sec.value == 0) {
+          sec.value = 59;
+          min.value--;
+        } else if (hour.value != 0 && min.value == 0 && sec.value == 0) {
+          min.value = 59;
+          hour.value--;
+        }
+        return;
+      }
+
+      const handleClickBtn = (e) => {
+        if (hour.value == 0 && min.value == 0 && sec.value == 0) {
+          alert("타이머 값을 설정해주세요");
+        } else if (e.target.textContent == "START") {
+          const timerInterval = () => {
+            startTimer = setInterval(() => {
+              timer();
+            }, 1000);
+          };
+          timerInterval();
+          e.target.textContent = "PAUSE";
+        } else {
+          clearInterval(startTimer);
+          e.target.textContent = "START";
+        }
+      };
+
+      startBtn.addEventListener("click", handleClickBtn);
+
+      resetBtn.addEventListener("click", () => {
+        startBtn.textContent = "START";
+        clearInterval(startTimer);
+        hour.value = 0;
+        min.value = 0;
+        sec.value = 0;
+      });
+    </script>
+  </body>
+</html>
