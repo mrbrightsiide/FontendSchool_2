@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import "../src/css/main.css";
 
 import Header from "./Layout/Header";
+import Footer from "./Layout/Footer";
 import Banner from "./components/Banner";
 import Posts from "./components/Posts";
 import fetchData from "./axios/fetchData";
@@ -35,6 +36,7 @@ function App() {
           <About data={userData}></About>
         </div>
       </main>
+      <Footer></Footer>
     </>
   );
 }
