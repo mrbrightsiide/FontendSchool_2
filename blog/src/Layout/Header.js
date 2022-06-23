@@ -2,12 +2,14 @@ import React from "react";
 
 import "../css/global.css";
 import "../css/header.css";
+
 import Logo from "../assets/Logo.svg";
 import Profile from "../assets/profile.jpg";
 import IconWhite from "../assets/icon-modify-white.svg";
 import IconLogin from "../assets/icon-login.svg";
 import IconLogout from "../assets/icon-logout.svg";
 import IconRegister from "../assets/icon-register.svg";
+
 import Button from "./../components/Button";
 
 function Header({ isLoggedin, setIsLoggedIn }) {

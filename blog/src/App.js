@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import "../src/css/global.css";
 import "../src/css/main.css";
 
+import fetchData from "./axios/fetchData";
+
+import Home from "./pages/Home";
+import PostView from "./pages/PostView";
 import Header from "./Layout/Header";
 import Footer from "./Layout/Footer";
-import Banner from "./components/Banner";
-import Posts from "./components/Posts";
-import fetchData from "./axios/fetchData";
-import About from "./components/About";
-
-// export const BlogDataContext = React.createContext();
 
 function App() {
   const [isLoggedin, setIsLoggedIn] = useState(true);
   const [blogData, setBlogData] = useState([]);
   const [postData, setPostData] = useState([]);
   const [userData, setUserData] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
       const data = await fetchData();
@@ -27,17 +28,28 @@ function App() {
   }, []);
 
   return (
-    <>
-      <Header isLoggedin={isLoggedin} setIsLoggedIn={setIsLoggedIn}></Header>
-      <Banner data={blogData}></Banner>
-      <main>
-        <div className='max-width'>
-          <Posts data={postData}></Posts>
-          <About data={userData}></About>
-        </div>
-      </main>
-      <Footer></Footer>
-    </>
+    <BrowserRouter>
+      <div className='App'>
+        <Header isLoggedin={isLoggedin} setIsLoggedIn={setIsLoggedIn}></Header>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <Home
+                blogData={blogData}
+                postData={postData}
+                userData={userData}
+              />
+            }
+          />
+          <Route
+            path='/:id'
+            element={<PostView postData={postData} userData={userData} />}
+          />
+        </Routes>
+        <Footer></Footer>
+      </div>
+    </BrowserRouter>
   );
 }
 

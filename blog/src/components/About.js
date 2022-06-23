@@ -10,27 +10,27 @@ const About = ({ data }) => {
       <p className='user-description'>{data.userInfo}</p>
       <h3>Categories</h3>
       <ul className='categories'>
-        {data.category === undefined
-          ? "Category Not Found"
-          : data.category.map((item) => {
-              return (
-                <li key={Math.random() * 100}>
-                  <a href='#'>{item}</a>
-                </li>
-              );
-            })}
+        {data.category &&
+          data.category.map((item) => {
+            return (
+              <li key={Math.random() * 100}>
+                <a href='#'>{item}</a>
+              </li>
+            );
+          })}
       </ul>
       <h3>Follow</h3>
       <ul className='sns'>
-        {data.sns === undefined
-          ? "SNS Not Found"
-          : Object.keys(data.sns).map((item) => (
+        {data.sns &&
+          Object.keys(data.sns)
+            .map((item) => (
               <li key={Math.random() * 100}>
                 <a href='#'>
                   <img src={`./assets/${item}.svg`} alt={item} />
                 </a>
               </li>
-            ))}
+            ))
+            .reverse()}
       </ul>
     </aside>
   );

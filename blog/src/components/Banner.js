@@ -1,16 +1,14 @@
 import React from "react";
 import "../css/banner.css";
 
-function Banner({ data }) {
-  // console.log(data);
+function Banner({ children, imgSrc }) {
   return (
-    <div className='banner'>
+    <div
+      className='banner'
+      style={imgSrc && { backgroundImage: `url(${imgSrc})` }}
+    >
       <div className='max-width'>
-        <div className='banner-contents'>
-          <p className='sub-text'>{data.subTitle}</p>
-          <p className='main-text'>{data.mainTitle}</p>
-          <p className='description'>{data.description}</p>
-        </div>
+        <div className='banner-contents'>{children}</div>
       </div>
     </div>
   );
